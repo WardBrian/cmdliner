@@ -1,0 +1,18 @@
+(executable
+ (name cmdliner_main)
+ (public_name cmdliner)
+ (libraries cmdliner))
+
+(include cmdliner.dune.inc)
+
+; alternative to dynamic_include, which needs dune 3.14
+
+(rule
+ (with-stdout-to
+  cmdliner.dune.inc.gen
+  (run %{bin:cmdliner} generate-dune-config cmdliner)))
+
+(alias
+ (name runtest)
+ (action
+  (diff cmdliner.dune.inc cmdliner.dune.inc.gen)))
